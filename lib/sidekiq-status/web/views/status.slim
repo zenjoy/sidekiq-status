@@ -1,0 +1,38 @@
+h3 Jobs Status
+
+table class="queue table table-hover table-bordered table-striped"
+  thead
+    th Last Update
+    th Queue
+    th Class
+    th Arguments
+    th Status
+  - @messages.each_with_index do |msg, index|
+    tr
+      td style='width:200px;'
+        = Time.at(msg['update_time'].to_i)
+      td
+        a href="#{root_path}queues/#{msg['queue']}"
+          = msg['queue']
+      td
+        = msg['class']
+      td
+        button data-toggle="collapse" data-target="#worker_#{index}" class="btn btn-mini" Show
+        .collapse[id="worker_#{index}"]
+          pre= msg['args']
+      td
+        - case msg['status']
+        - when 'failed'
+          span.label.label-important= msg['status']
+        - when 'working'
+          span.label.label-warning= msg['status']
+        - when 'complete'
+          span.label.label-success= msg['status']
+        - when 'stopped'
+          span.label.label-inverse= msg['status']
+        - when 'queued'
+          span.label.label-info= msg['status']
+        - when 'deleted'
+          span.label= msg['status']
+
+== slim :_paging, :locals => { :url => "#{root_path}status" }

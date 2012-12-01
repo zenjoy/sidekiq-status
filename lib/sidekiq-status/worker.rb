@@ -19,8 +19,8 @@ module Sidekiq::Status::Worker
   # sets last update time
   # @param [Hash] status_updates updated values
   # @return [String] Redis operation status code
-  def store(hash)
-    store_for_id(@id, hash)
+  def store(status_hash)
+    store_for_id(@id, status_hash)
   end
 
 end
